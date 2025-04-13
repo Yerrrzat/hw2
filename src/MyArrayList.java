@@ -17,7 +17,6 @@ public class MyArrayList<T> implements MyList<T> {
         data[size++] = item;
     }
 
-
     private void grow() {
         Object[] newData = new Object[data.length * 2];
         for (int i = 0; i < data.length; i++) {
@@ -32,13 +31,6 @@ public class MyArrayList<T> implements MyList<T> {
         return (T) data[index];
     }
 
-    private void checkIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
-    }
-
-
     @Override
     public void remove(int index) {
         checkIndex(index);
@@ -49,8 +41,6 @@ public class MyArrayList<T> implements MyList<T> {
         size--;
     }
 
-    @Override public int size() { return size; }
-
     @Override
     public void clear() {
         for (int i = 0; i < size; i++) {
@@ -59,8 +49,36 @@ public class MyArrayList<T> implements MyList<T> {
         size = 0;
     }
 
-    @Override public boolean isEmpty() { return size == 0; }
+    @Override
+    public int size() {
+        return size;
+    }
 
-    @Override public Iterator<T> iterator() { return null; }
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public T next() {
+                return (T) data[index++];
+            }
+        };
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
 }
-
