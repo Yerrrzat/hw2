@@ -1,23 +1,23 @@
 import java.util.Iterator;
 
 public class MyArrayList<T> implements MyList<T> {
-    private Object[] data; // internal array to store elements
-    private int size;      // current number of elements in the list
+    private Object[] data;
+    private int size;
 
     public MyArrayList() {
-        data = new Object[10]; // initial capacity
+        data = new Object[10];
         size = 0;
     }
 
     @Override
     public void add(T item) {
         if (size == data.length) {
-            grow(); // increase array capacity when it's full
+            grow();
         }
         data[size++] = item;
     }
 
-    // Method to double the size of the internal array
+
     private void grow() {
         Object[] newData = new Object[data.length * 2];
         for (int i = 0; i < data.length; i++) {
@@ -26,8 +26,18 @@ public class MyArrayList<T> implements MyList<T> {
         data = newData;
     }
 
-    // Placeholder methods to be implemented later
-    @Override public T get(int index) { return null; }
+    @Override
+    public T get(int index) {
+        checkIndex(index);
+        return (T) data[index];
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
+
 
     @Override public void remove(int index) {}
 
@@ -39,3 +49,4 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override public Iterator<T> iterator() { return null; }
 }
+

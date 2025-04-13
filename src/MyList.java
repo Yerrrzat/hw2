@@ -1,6 +1,5 @@
 import java.util.Iterator;
 
- //simple version of interface
 
 public interface MyList<T> extends Iterable<T> {
     void add(T item);
