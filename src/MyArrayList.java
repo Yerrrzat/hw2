@@ -51,7 +51,13 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override public int size() { return size; }
 
-    @Override public void clear() {}
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            data[i] = null;
+        }
+        size = 0;
+    }
 
     @Override public boolean isEmpty() { return size == 0; }
 
