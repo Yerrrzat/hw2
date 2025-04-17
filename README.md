@@ -1,5 +1,3 @@
-# Data Structures Assignment Submission
-
 **Student:** Yerzat
 
 This repository contains the implementation of the Data Structures assignment, as required:
