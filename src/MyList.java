@@ -24,7 +24,6 @@ public interface MyList<T> extends Iterable<T> {
     void removeLast();
 
     void clear();
-    boolean isEmpty();
 
     void set(int index, T item);
 

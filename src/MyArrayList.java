@@ -86,11 +86,6 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
     public int size() {
         return size;
     }
