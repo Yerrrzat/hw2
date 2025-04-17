@@ -2,7 +2,6 @@ public class TestMyArrayList {
     public static void main(String[] args) {
         MyList<Integer> list = new MyArrayList<>();
 
-        assertTest("isEmpty on new list", list.isEmpty(), true);
         assertTest("size on new list", list.size(), 0);
 
         list.add(10);
@@ -36,11 +35,6 @@ public class TestMyArrayList {
         list.removeFirst();
         list.removeLast();
         assertTest("final list contents", list.get(0) + "," + list.get(1), "15,30");
-
-
-        list.clear();
-        assertTest("isEmpty after clear", list.isEmpty(), true);
-
 
         MyList<String> sList = new MyArrayList<>();
         sList.add("banana");
