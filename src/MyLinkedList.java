@@ -129,11 +129,91 @@ public class MyLinkedList<T> implements MyList<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        Node<T> curr = head;
-        for (int i = 0; i < index; i++) {
-            curr = curr.next;
+        Node<T> curr;
+        if (index < size / 2) {
+            curr = head;
+            for (int i = 0; i < index; i++) {
+                curr = curr.next;
+            }
+        } else {
+            curr = tail;
+            for (int i = size - 1; i > index; i--) {
+                curr = curr.prev;
+            }
         }
         return curr;
+    }
+
+    @Override
+    public void set(int index, T item) {
+        Node<T> node = getNode(index);
+        node.value = item;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        Node<T> curr = head;
+        int idx = 0;
+        while (curr != null) {
+            if (o == null ? curr.value == null : o.equals(curr.value)) {
+                return idx;
+            }
+            curr = curr.next;
+            idx++;
+        }
+        return -1;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        Node<T> curr = tail;
+        int idx = size - 1;
+        while (curr != null) {
+            if (o == null ? curr.value == null : o.equals(curr.value)) {
+                return idx;
+            }
+            curr = curr.prev;
+            idx--;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean exists(Object o) {
+        return indexOf(o) != -1;
+    }
+
+    @Override
+    public Object[] toArray() {
+        Object[] array = new Object[size];
+        Node<T> curr = head;
+        int i = 0;
+        while (curr != null) {
+            array[i++] = curr.value;
+            curr = curr.next;
+        }
+        return array;
+    }
+
+    @Override
+    public void sort() {
+        if (size < 2) return;
+        boolean swapped;
+        do {
+            swapped = false;
+            Node<T> curr = head;
+            while (curr.next != null) {
+                Comparable<? super T> a = (Comparable<? super T>) curr.value;
+                T b = curr.next.value;
+                if (a.compareTo(b) > 0) {
+                    T tmp = curr.value;
+                    curr.value = curr.next.value;
+                    curr.next.value = tmp;
+                    swapped = true;
+                }
+                curr = curr.next;
+            }
+        } while (swapped);
     }
 
     @Override
@@ -146,19 +226,10 @@ public class MyLinkedList<T> implements MyList<T> {
             }
             @Override
             public T next() {
-                T value = curr.value;
+                T val = curr.value;
                 curr = curr.next;
-                return value;
+                return val;
             }
         };
     }
-
-
-    @Override public void set(int index, T item) {}
-    @Override public void sort() {}
-    @Override public int indexOf(Object object) { return -1; }
-    @Override public int lastIndexOf(Object object) { return -1; }
-    @Override public boolean exists(Object object) { return false; }
-    @Override public Object[] toArray() { return null; }
 }
-
