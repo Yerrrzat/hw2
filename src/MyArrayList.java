@@ -64,8 +64,7 @@ public class MyArrayList<T> implements MyList<T> {
         for (int i = index; i < size - 1; i++) {
             data[i] = data[i + 1];
         }
-        data[size - 1] = null;
-        size--;
+        data[--size] = null;
     }
 
     @Override
@@ -98,9 +97,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     private void grow() {
         Object[] newData = new Object[data.length * 2];
-        for (int i = 0; i < data.length; i++) {
-            newData[i] = data[i];
-        }
+        System.arraycopy(data, 0, newData, 0, data.length);
         data = newData;
     }
 
@@ -114,13 +111,9 @@ public class MyArrayList<T> implements MyList<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int index = 0;
-
-            @Override
             public boolean hasNext() {
                 return index < size;
             }
-
-            @Override
             public T next() {
                 return (T) data[index++];
             }
@@ -128,15 +121,55 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public void set(int index, T item) {}
+    public void set(int index, T item) {
+        checkIndex(index);
+        data[index] = item;
+    }
+
     @Override
-    public void sort() {}
+    public int indexOf(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (o == null ? data[i] == null : o.equals(data[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
-    public int indexOf(Object object) { return -1; }
+    public int lastIndexOf(Object o) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (o == null ? data[i] == null : o.equals(data[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
-    public int lastIndexOf(Object object) { return -1; }
+    public boolean exists(Object o) {
+        return indexOf(o) != -1;
+    }
+
     @Override
-    public boolean exists(Object object) { return false; }
+    public Object[] toArray() {
+        Object[] array = new Object[size];
+        System.arraycopy(data, 0, array, 0, size);
+        return array;
+    }
+
     @Override
-    public Object[] toArray() { return null; }
+    public void sort() {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1 - i; j++) {
+                Comparable<? super T> a = (Comparable<? super T>) data[j];
+                T b = (T) data[j + 1];
+                if (a.compareTo(b) > 0) {
+                    Object tmp = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = tmp;
+                }
+            }
+        }
+    }
 }
